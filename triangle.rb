@@ -17,9 +17,13 @@ require 'set'
 
 def triangle(a, b, c)
   sides = Set.new [a, b, c]
-  return :equilateral if sides.length == 1
-  return :isosceles if sides.length == 2
-  return :scalene if sides.length == 3
+  
+  raise TriangleError if sides.any? { |s| s == 0 or s < 0 }
+  fake_triangle = [[a + b, c], [a + c, b], [b + c, a]].any? { |x| x.first <= x.last }
+  raise TriangleError if fake_triangle
+  
+  triangles = {1 => :equilateral, 2 => :isosceles, 3 => :scalene }
+  return triangles[sides.length]
 end
 
 # Error class used in part 2.  No need to change this code.
