@@ -13,11 +13,13 @@
 # and
 #   about_triangle_project_2.rb
 #
+require 'set'
+
 def triangle(a, b, c)
-  sides = [a, b, c]
-  return :equilateral if sides.uniq.length == 1
-  return :isosceles if sides.uniq.length == 2
-  return :scalene if sides.uniq.length == 3
+  sides = Set.new [a, b, c]
+  return :equilateral if sides.length == 1
+  return :isosceles if sides.length == 2
+  return :scalene if sides.length == 3
 end
 
 # Error class used in part 2.  No need to change this code.
