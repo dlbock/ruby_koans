@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/edgecase')
+require 'eregex'
 
 # Greed is a dice game where you roll up to five dice to accumulate
 # points.  The following "score" function will be used calculate the
@@ -30,7 +31,28 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  score = 0
+  ones = dice.sort.to_s[/[1]+/]
+  if ones
+    score += (ones.length % 3) * 100
+    if ones.length >= 3
+      score += 1000
+    end
+  end
+  fives = dice.sort.to_s[/[5]+/]
+  if fives
+    score += (fives.length % 3) * 50
+    if fives.length >= 3
+      score += 500
+    end
+  end
+  [2,3,4,6].each do |number|
+    number_string = dice.sort.to_s[Regexp.new("[#{number}]+")]
+    if number_string && number_string.length >= 3
+      score += (number * 100)
+    end
+  end
+  score
 end
 
 class AboutScoringProject < EdgeCase::Koan
